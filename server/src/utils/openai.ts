@@ -49,8 +49,6 @@ export async function generateWelcomeMessage(): Promise<string> {
 
 export interface CallLlmOptions {
   model: string;
-  temperature?: number;
-  topP?: number;
   schemaName?: string;
 }
 
@@ -67,8 +65,6 @@ export async function callLLM<T>(
   try {
     completion = await client.beta.chat.completions.parse({
       model: opts.model,
-      temperature: opts.temperature ?? 0,
-      top_p: opts.topP ?? 1,
       messages: [
         { role: 'system', content: systemPrompt },
         { role: 'user', content: userPrompt }

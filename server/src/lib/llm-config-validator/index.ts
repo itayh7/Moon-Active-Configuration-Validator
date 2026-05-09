@@ -27,8 +27,6 @@ export async function validateConfigWithLlm(
 
   const llmOutput = await callLLM(systemPrompt, userPrompt, LlmOutputSchema, {
     model: input.model,
-    temperature: 0,
-    topP: 1,
     schemaName: 'validation_result'
   });
 

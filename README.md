@@ -254,8 +254,9 @@ to reason about violations qualitatively.
   (`zodResponseFormat`). The Zod schema in
   `server/src/schemas/llm-output.ts` is the single source of truth: it
   constrains the model and types the parsed result.
-- **Parameters** — `temperature: 0`, `top_p: 1` for deterministic
-  output.
+- **Sampling parameters** — none. `temperature` and `top_p` are
+  intentionally not sent. See
+  [Why no `temperature` is set](#why-no-temperature-is-set).
 
 The LLM returns:
 
@@ -357,6 +358,13 @@ create a new failure mode where the model contradicts itself
 Deriving the verdict from `findings.length` removes the conflict by
 construction. The system prompt makes the equivalence explicit:
 *empty findings means the configuration is fine.*
+
+### Why no `temperature` is set
+
+Preferred would be `temperature: 0` for deterministic output, but
+`gpt-5` (and the o-series reasoning models) reject any value other
+than the default `1`. `top_p` is treated similarly. To keep the
+allowlist open without per-model branching, both params are omitted.
 
 ### No game-economy context
 
