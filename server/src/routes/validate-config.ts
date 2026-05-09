@@ -5,14 +5,7 @@ import { readReferenceRanges, ReferenceRangesError } from '../lib/reference-rang
 import { validateConfigWithLlm } from '../lib/llm-config-validator/index.js';
 import { LlmError } from '../utils/openai.js';
 import type { LlmFeedback } from '../lib/llm-config-validator/post-process.js';
-
-const ALLOWED_MODELS = ['gpt-4o-mini', 'gpt-4o', 'gpt-5'] as const;
-
-type AllowedModel = (typeof ALLOWED_MODELS)[number];
-
-function isAllowedModel(value: unknown): value is AllowedModel {
-  return typeof value === 'string' && (ALLOWED_MODELS as readonly string[]).includes(value);
-}
+import { ALLOWED_MODELS, isAllowedModel, type AllowedModel } from '../lib/allowed-models.js';
 
 class InvalidModelError extends Error {
   readonly statusCode = 400;

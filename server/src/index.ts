@@ -3,6 +3,8 @@ import Fastify, { type FastifyError } from 'fastify';
 import cors from '@fastify/cors';
 import { registerHealthRoute } from './routes/health.js';
 import { registerValidateConfigRoute } from './routes/validate-config.js';
+import { registerModelsRoute } from './routes/models.js';
+import { registerReferenceRangesRoute } from './routes/reference-ranges.js';
 
 const PORT = Number(process.env.PORT ?? 3000);
 const HOST = process.env.HOST ?? '0.0.0.0';
@@ -25,6 +27,8 @@ fastify.setErrorHandler((error: FastifyError, _request, reply) => {
 
 await registerHealthRoute(fastify);
 await registerValidateConfigRoute(fastify);
+await registerModelsRoute(fastify);
+await registerReferenceRangesRoute(fastify);
 
 try {
   await fastify.listen({ port: PORT, host: HOST });

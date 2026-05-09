@@ -1,6 +1,9 @@
 import { createContext, useContext, useMemo, type ReactNode } from 'react';
 import { RootStore } from './RootStore';
 import type { HealthStore } from './HealthStore';
+import type { ModelsStore } from './ModelsStore';
+import type { SettingsStore } from './SettingsStore';
+import type { ValidatorStore } from './ValidatorStore';
 
 const StoreContext = createContext<RootStore | null>(null);
 
@@ -23,4 +26,16 @@ export function useRootStore(): RootStore {
 
 export function useHealthStore(): HealthStore {
   return useRootStore().healthStore;
+}
+
+export function useModelsStore(): ModelsStore {
+  return useRootStore().modelsStore;
+}
+
+export function useSettingsStore(): SettingsStore {
+  return useRootStore().settingsStore;
+}
+
+export function useValidatorStore(): ValidatorStore {
+  return useRootStore().validatorStore;
 }

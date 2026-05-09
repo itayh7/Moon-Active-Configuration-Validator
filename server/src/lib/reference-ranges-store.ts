@@ -1,4 +1,4 @@
-import { readFile } from 'node:fs/promises';
+import { readFile, writeFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { dirname, resolve } from 'node:path';
 import { ReferenceRangesSchema, type ReferenceRanges } from '../schemas/reference-ranges.js';
@@ -43,4 +43,16 @@ export async function readReferenceRanges(): Promise<ReferenceRanges> {
     );
   }
   return result.data;
+}
+
+export async function writeReferenceRanges(ranges: ReferenceRanges): Promise<void> {
+  const validated = ReferenceRangesSchema.parse(ranges);
+  try {
+    await writeFile(RANGES_FILE, JSON.stringify(validated, null, 2) + '\n', 'utf8');
+  } catch (err) {
+    throw new ReferenceRangesError(
+      `Failed to write reference-ranges file at ${RANGES_FILE}`,
+      err
+    );
+  }
 }

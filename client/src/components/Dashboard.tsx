@@ -1,31 +1,35 @@
 import { observer } from 'mobx-react-lite';
 import { useEffect } from 'react';
-import { useHealthStore } from '../stores/StoreContext';
+import { useModelsStore, useSettingsStore } from '../stores/StoreContext';
 import { PageLayout } from '../layout/PageLayout';
 import { PageTitle } from '../common/PageTitle';
 import { SectionCard } from '../common/SectionCard';
-import { ConnectionStatus } from './ConnectionStatus';
-import { WelcomeMessage } from './WelcomeMessage';
-import { RefreshButton } from './RefreshButton';
+import { ConfigurationValidator } from './ConfigurationValidator';
+import { GameSettings } from './GameSettings';
+import { ModelSelector } from './ModelSelector';
 import { APP_TITLE } from '../definitions/constants';
 
 export const Dashboard = observer(() => {
-  const health = useHealthStore();
+  const models = useModelsStore();
+  const settings = useSettingsStore();
 
   useEffect(() => {
-    void health.fetchHealth();
-  }, [health]);
+    void models.load();
+    void settings.load();
+  }, [models, settings]);
 
   return (
     <PageLayout>
       <PageTitle text={APP_TITLE} />
-      <SectionCard title="Connection Status">
-        <ConnectionStatus />
+      <SectionCard title="Configuration Validator">
+        <ConfigurationValidator />
       </SectionCard>
-      <SectionCard title="AI Greeting">
-        <WelcomeMessage />
+      <SectionCard title="Game Settings">
+        <GameSettings />
       </SectionCard>
-      <RefreshButton />
+      <SectionCard title="Model ID">
+        <ModelSelector />
+      </SectionCard>
     </PageLayout>
   );
 });
