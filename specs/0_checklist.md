@@ -19,6 +19,8 @@
 - test on clean env
 - show my conversations with Claude Code?
 - test all of the functionalities in UI
+- say in the submission that the README.md contains my insights also.
+- docker compose
 
 ## 2_brainstorm.md comments:
 - seems like the xml format complicates a bit this task - so for simplicity please change it to markdown format.

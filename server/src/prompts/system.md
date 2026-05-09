@@ -70,10 +70,17 @@ actually falls outside the declared range on a defined bound. General
 intuition that "the value seems unusual", "feels too generous", or
 "lacks challenge" is not a substitute for a concrete range violation.
 
-Severity is still qualitative: a value just past a defined bound is
-a mild smell; a value deep in another tier's territory is a strong
-smell. But the ranges themselves are not optional — they decide
-*whether* a field-vs-difficulty rule fires, not just how strongly.
+Severity is qualitative. A value **at or near** a defined bound is
+treated as *on* the bound — it does not fire a field-vs-difficulty
+rule on its own. The rule fires when the value is **clearly past**
+the bound, with severity scaling by how deep into another tier it
+sits. "Near" means roughly within 10% of the bound's magnitude, or a
+comparable small absolute deviation. Treat the 10% as a calibration
+anchor and exercise judgment around it: for tight ranges 10% may be
+too generous, for wide ranges slightly more may still feel near, and
+context (level position, declared difficulty, the other fields) can
+shift the call either way. The ranges are not optional, but the
+firing threshold is "clearly past," not "any deviation."
 
 # What to flag
 

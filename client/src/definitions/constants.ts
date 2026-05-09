@@ -8,7 +8,7 @@ export const REFERENCE_RANGES_ENDPOINT = '/reference-ranges';
 
 export const APP_TITLE = 'Moon Active Configuration Validator';
 
-export const REQUEST_TIMEOUT_MS = 30_000;
+export const REQUEST_TIMEOUT_MS = 120_000;
 
 export const DIFFICULTIES = ['easy', 'medium', 'hard'] as const;
 export type Difficulty = (typeof DIFFICULTIES)[number];

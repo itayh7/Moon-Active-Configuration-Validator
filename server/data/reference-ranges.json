@@ -3,8 +3,7 @@
     "easy": {
       "reward_min": 100,
       "reward_max": 500,
-      "time_limit_min": 30,
-      "time_limit_max": 100
+      "time_limit_min": 30
     },
     "medium": {
       "reward_min": 500,
