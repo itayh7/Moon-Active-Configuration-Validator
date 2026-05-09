@@ -264,7 +264,7 @@ The LLM returns:
 {
   analysis: string,
   findings: Array<{
-    rule: 'reward_vs_difficulty' | 'time_vs_difficulty' | 'reward_per_second'
+    rule: 'reward_vs_difficulty' | 'time_vs_difficulty'
         | 'level_vs_difficulty' | 'economy_risk' | 'frustration_risk',
     suggested_action: string,
     confidence: number   // 0..1

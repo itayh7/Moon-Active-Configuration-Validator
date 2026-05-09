@@ -3,7 +3,6 @@ import { z } from 'zod';
 export const FindingRule = z.enum([
   'reward_vs_difficulty',
   'time_vs_difficulty',
-  'reward_per_second',
   'level_vs_difficulty',
   'economy_risk',
   'frustration_risk'
