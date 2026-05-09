@@ -24,7 +24,7 @@ export async function generateWelcomeMessage(): Promise<string> {
     model: process.env.OPENAI_MODEL ?? 'gpt-4o-mini',
     messages: [{ role: 'user', content: WELCOME_PROMPT }],
     max_tokens: 80,
-    temperature: 0.9
+    temperature: 0.0
   });
 
   return completion.choices[0]?.message?.content?.trim() ?? FALLBACK_MESSAGE;
