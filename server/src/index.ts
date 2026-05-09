@@ -2,6 +2,7 @@ import 'dotenv/config';
 import Fastify, { type FastifyError } from 'fastify';
 import cors from '@fastify/cors';
 import { registerHealthRoute } from './routes/health.js';
+import { registerValidateConfigRoute } from './routes/validate-config.js';
 
 const PORT = Number(process.env.PORT ?? 3000);
 const HOST = process.env.HOST ?? '0.0.0.0';
@@ -23,6 +24,7 @@ fastify.setErrorHandler((error: FastifyError, _request, reply) => {
 });
 
 await registerHealthRoute(fastify);
+await registerValidateConfigRoute(fastify);
 
 try {
   await fastify.listen({ port: PORT, host: HOST });

@@ -1,0 +1,8 @@
+{
+  "difficulties": {
+    "easy":   { "reward_min": 100,  "reward_max": 500,  "time_limit_min": 30 },
+    "medium": { "reward_min": 500,  "reward_max": 2000, "time_limit_min": 20, "time_limit_max": 60 },
+    "hard":   { "reward_min": 2000, "reward_max": 5000, "time_limit_min": 10, "time_limit_max": 30 }
+  },
+  "total_levels": 150
+}

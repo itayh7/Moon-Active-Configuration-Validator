@@ -1,4 +1,6 @@
 import OpenAI from 'openai';
+import { zodResponseFormat } from 'openai/helpers/zod';
+import type { ZodType } from 'zod';
 
 const FALLBACK_MESSAGE =
   'Welcome to the Moon Active Configuration Validator! (Set OPENAI_API_KEY to enable AI-generated greetings.)';
@@ -16,6 +18,21 @@ function getClient(): OpenAI | null {
   return cachedClient;
 }
 
+function requireClient(): OpenAI {
+  const client = getClient();
+  if (!client) {
+    throw new LlmError('OPENAI_API_KEY is not set');
+  }
+  return client;
+}
+
+export class LlmError extends Error {
+  constructor(message: string, readonly cause?: unknown) {
+    super(message);
+    this.name = 'LlmError';
+  }
+}
+
 export async function generateWelcomeMessage(): Promise<string> {
   const client = getClient();
   if (!client) return FALLBACK_MESSAGE;
@@ -28,4 +45,50 @@ export async function generateWelcomeMessage(): Promise<string> {
   });
 
   return completion.choices[0]?.message?.content?.trim() ?? FALLBACK_MESSAGE;
+}
+
+export interface CallLlmOptions {
+  model: string;
+  temperature?: number;
+  topP?: number;
+  schemaName?: string;
+}
+
+export async function callLLM<T>(
+  systemPrompt: string,
+  userPrompt: string,
+  schema: ZodType<T>,
+  opts: CallLlmOptions
+): Promise<T> {
+  const client = requireClient();
+  const schemaName = opts.schemaName ?? 'response';
+
+  let completion;
+  try {
+    completion = await client.beta.chat.completions.parse({
+      model: opts.model,
+      temperature: opts.temperature ?? 0,
+      top_p: opts.topP ?? 1,
+      messages: [
+        { role: 'system', content: systemPrompt },
+        { role: 'user', content: userPrompt }
+      ],
+      response_format: zodResponseFormat(schema, schemaName)
+    });
+  } catch (err) {
+    throw new LlmError('LLM request failed', err);
+  }
+
+  const choice = completion.choices[0];
+  if (!choice) {
+    throw new LlmError('LLM returned no choices');
+  }
+  if (choice.message.refusal) {
+    throw new LlmError(`LLM refused the request: ${choice.message.refusal}`);
+  }
+  const parsed = choice.message.parsed;
+  if (parsed == null) {
+    throw new LlmError('LLM returned no parsed structured output');
+  }
+  return parsed as T;
 }

@@ -16,7 +16,7 @@
  * principles: static system prompt and dynamic user prompt, xml format for user prompt ("It's the standard Anthropic-recommended split (markdown for instructions, XML tags for structured data)" - bring this article)
  * architectural decisions: get help from Claude Code from our discussions for the best 5 in a concise format. for example set the role in system prompt to a game economy expect so this validator will be good for the business. Also explain why I decided to split the issues categories.
  * mention that in the task we have the instruction of "higher levels are harder" - but what's "higher"? relatively to what? so if the user supplies the number of the levels for this game, it will be able to consider this rule.
-
+- test on clean env
 
 ## 2_brainstorm.md comments:
 - seems like the xml format complicates a bit this task - so for simplicity please change it to markdown format.
