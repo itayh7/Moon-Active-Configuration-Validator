@@ -76,7 +76,8 @@ export async function callLLM<T>(
       response_format: zodResponseFormat(schema, schemaName)
     });
   } catch (err) {
-    throw new LlmError('LLM request failed', err);
+    const detail = err instanceof Error ? err.message : String(err);
+    throw new LlmError(`LLM request failed: ${detail}`, err);
   }
 
   const choice = completion.choices[0];

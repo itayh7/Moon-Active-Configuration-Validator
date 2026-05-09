@@ -106,15 +106,16 @@ Body — exactly the four fields, no extras:
 }
 ```
 
-Optional query string for **model selection**:
+**Required** query string for **model selection**:
 
 ```
-?model=gpt-4o-mini   # default
+?model=gpt-4o-mini
 ?model=gpt-4o
 ```
 
 The server enforces a small allowlist of models that support OpenAI
-structured outputs. Unknown values fall back to the default.
+structured outputs. There is no default — a missing or unknown
+`model` returns **400**.
 
 ### Success response (200)
 
@@ -139,11 +140,12 @@ structured outputs. Unknown values fall back to the default.
 
 ### Error responses
 
-| Status | When                                                                 | Body                                                                 |
-| ------ | -------------------------------------------------------------------- | -------------------------------------------------------------------- |
-| **400** | Body fails the input schema (Zod). LLM is **not** called.            | `{ "schema_validation": { "valid": false, "errors": [...] } }`       |
-| **500** | `server/data/reference-ranges.json` is missing/empty/malformed.      | `{ "status": "error", "message": "..." }`                            |
-| **502** | LLM API error, missing API key, or malformed structured output.      | `{ "status": "error", "message": "..." }`                            |
+| Status | When                                                                  | Body                                                                 |
+| ------ | --------------------------------------------------------------------- | -------------------------------------------------------------------- |
+| **400** | Body fails the input schema (Zod). LLM is **not** called.             | `{ "schema_validation": { "valid": false, "errors": [...] } }`       |
+| **400** | `?model=` is missing or not in the allowlist. LLM is **not** called.  | `{ "status": "error", "message": "..." }`                            |
+| **500** | `server/data/reference-ranges.json` is missing/empty/malformed.       | `{ "status": "error", "message": "..." }`                            |
+| **502** | LLM API error, missing API key, or malformed structured output.       | `{ "status": "error", "message": "..." }`                            |
 
 ---
 
@@ -155,7 +157,7 @@ server up.
 ### 1) Reward too high for an easy level
 
 ```bash
-curl -s -X POST http://localhost:3000/validate-config \
+curl -s -X POST 'http://localhost:3000/validate-config?model=gpt-4o-mini' \
   -H "Content-Type: application/json" \
   -d '{"level":12,"time_limit":60,"reward":5000,"difficulty":"easy"}'
 ```
@@ -163,7 +165,7 @@ curl -s -X POST http://localhost:3000/validate-config \
 ### 2) Time limit too tight for a hard level
 
 ```bash
-curl -s -X POST http://localhost:3000/validate-config \
+curl -s -X POST 'http://localhost:3000/validate-config?model=gpt-4o-mini' \
   -H "Content-Type: application/json" \
   -d '{"level":5,"time_limit":10,"reward":500,"difficulty":"hard"}'
 ```
@@ -171,7 +173,7 @@ curl -s -X POST http://localhost:3000/validate-config \
 ### 3) Reasonable starting level (expect empty findings)
 
 ```bash
-curl -s -X POST http://localhost:3000/validate-config \
+curl -s -X POST 'http://localhost:3000/validate-config?model=gpt-4o-mini' \
   -H "Content-Type: application/json" \
   -d '{"level":1,"time_limit":120,"reward":100,"difficulty":"easy"}'
 ```
@@ -187,9 +189,23 @@ curl -s -X POST 'http://localhost:3000/validate-config?model=gpt-4o' \
 ### Trigger a 400 (schema failure)
 
 ```bash
-curl -s -i -X POST http://localhost:3000/validate-config \
+curl -s -i -X POST 'http://localhost:3000/validate-config?model=gpt-4o-mini' \
   -H "Content-Type: application/json" \
   -d '{"level":"oops"}'
+```
+
+### Trigger a 400 (model missing or not in allowlist)
+
+```bash
+# missing model
+curl -s -i -X POST http://localhost:3000/validate-config \
+  -H "Content-Type: application/json" \
+  -d '{"level":1,"time_limit":120,"reward":100,"difficulty":"easy"}'
+
+# unknown model
+curl -s -i -X POST 'http://localhost:3000/validate-config?model=gpt-99' \
+  -H "Content-Type: application/json" \
+  -d '{"level":1,"time_limit":120,"reward":100,"difficulty":"easy"}'
 ```
 
 ---

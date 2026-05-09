@@ -6,13 +6,34 @@ import { validateConfigWithLlm } from '../lib/llm-config-validator/index.js';
 import { LlmError } from '../utils/openai.js';
 import type { LlmFeedback } from '../lib/llm-config-validator/post-process.js';
 
-const ALLOWED_MODELS = ['gpt-4o-mini', 'gpt-4o'] as const;
-const DEFAULT_MODEL: AllowedModel = 'gpt-4o-mini';
+const ALLOWED_MODELS = ['gpt-4o-mini', 'gpt-4o', 'gpt-5'] as const;
 
 type AllowedModel = (typeof ALLOWED_MODELS)[number];
 
 function isAllowedModel(value: unknown): value is AllowedModel {
   return typeof value === 'string' && (ALLOWED_MODELS as readonly string[]).includes(value);
+}
+
+class InvalidModelError extends Error {
+  readonly statusCode = 400;
+  constructor(message: string) {
+    super(message);
+    this.name = 'InvalidModelError';
+  }
+}
+
+function requireModel(value: unknown): AllowedModel {
+  if (value === undefined || value === '') {
+    throw new InvalidModelError(
+      `Query parameter "model" is required. Allowed values: ${ALLOWED_MODELS.join(', ')}`
+    );
+  }
+  if (!isAllowedModel(value)) {
+    throw new InvalidModelError(
+      `Model "${String(value)}" is not allowed. Allowed values: ${ALLOWED_MODELS.join(', ')}`
+    );
+  }
+  return value;
 }
 
 interface SchemaValidationError {
@@ -62,7 +83,7 @@ export async function registerValidateConfigRoute(app: FastifyInstance): Promise
       }
 
       const modelParam = (request.query as Record<string, unknown> | undefined)?.model;
-      const model: AllowedModel = isAllowedModel(modelParam) ? modelParam : DEFAULT_MODEL;
+      const model = requireModel(modelParam);
 
       let ranges;
       try {

@@ -12,7 +12,7 @@ reward — the amount of in-game currency or points granted for completing the l
 time_limit — the time (in seconds) allocated to complete the level. This controls pacing and challenge.
 
 ### Reference Balancing Ranges
- For reference, you can assume that:
+For reference, you can assume that:
 Easy levels generally have rewards in the range of 100–500 and time limits of at least 30 seconds.
 Medium levels typically offer rewards between 500–2000 with time limits around 20–60 seconds.
 Hard levels usually grant rewards of 2000–5000 with tighter time limits, often between 10–30 seconds.
