@@ -4,7 +4,7 @@ import {
   saveReferenceRanges,
   type ReferenceRanges
 } from '../api/referenceRangesApi';
-import type { Difficulty, RangeField } from '../definitions/constants';
+import type { Difficulty, OptionalRangeField, RangeField } from '../definitions/constants';
 
 type Status = 'idle' | 'loading' | 'saving' | 'ok' | 'error';
 
@@ -28,9 +28,21 @@ export class SettingsStore {
 
   setRangeField(difficulty: Difficulty, field: RangeField, value: number): void {
     if (!this.ranges) return;
+    this.ranges.difficulties[difficulty][field] = value;
+  }
+
+  setOptionalRangeField(
+    difficulty: Difficulty,
+    field: OptionalRangeField,
+    value: number | undefined
+  ): void {
+    if (!this.ranges) return;
     const target = this.ranges.difficulties[difficulty];
-    if (target[field] === undefined) return;
-    target[field] = value;
+    if (value === undefined) {
+      delete target[field];
+    } else {
+      target[field] = value;
+    }
   }
 
   setTotalLevels(value: number): void {

@@ -21,14 +21,14 @@ export const Dashboard = observer(() => {
   return (
     <PageLayout>
       <PageTitle text={APP_TITLE} />
+      <SectionCard title="Model ID">
+        <ModelSelector />
+      </SectionCard>
       <SectionCard title="Configuration Validator">
         <ConfigurationValidator />
       </SectionCard>
       <SectionCard title="Game Settings">
         <GameSettings />
-      </SectionCard>
-      <SectionCard title="Model ID">
-        <ModelSelector />
       </SectionCard>
     </PageLayout>
   );

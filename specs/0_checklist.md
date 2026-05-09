@@ -18,6 +18,7 @@
  * mention that in the task we have the instruction of "higher levels are harder" - but what's "higher"? relatively to what? so if the user supplies the number of the levels for this game, it will be able to consider this rule.
 - test on clean env
 - show my conversations with Claude Code?
+- test all of the functionalities in UI
 
 ## 2_brainstorm.md comments:
 - seems like the xml format complicates a bit this task - so for simplicity please change it to markdown format.

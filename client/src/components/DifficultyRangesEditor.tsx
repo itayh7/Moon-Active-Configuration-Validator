@@ -1,9 +1,16 @@
 import { observer } from 'mobx-react-lite';
 import { useSettingsStore } from '../stores/StoreContext';
 import { NumberField } from '../common/NumberField';
+import { OptionalNumberField } from '../common/OptionalNumberField';
 import { TextLine } from '../common/TextLine';
 import { Stack } from '../common/Stack';
-import { RANGE_FIELDS, type Difficulty, type RangeField } from '../definitions/constants';
+import { FieldRow } from '../common/FieldRow';
+import {
+  REQUIRED_RANGE_FIELDS,
+  OPTIONAL_RANGE_FIELDS,
+  type Difficulty,
+  type RangeField
+} from '../definitions/constants';
 
 interface DifficultyRangesEditorProps {
   difficulty: Difficulty;
@@ -25,22 +32,28 @@ export const DifficultyRangesEditor = observer(({ difficulty }: DifficultyRanges
   return (
     <Stack spacing={1}>
       <TextLine variant="subtitle" text={difficulty} />
-      <Stack spacing={1} direction="row">
-        {RANGE_FIELDS.map((field) => {
-          const value = range[field];
-          if (value === undefined) return null;
-          return (
-            <NumberField
-              key={field}
-              label={FIELD_LABELS[field]}
-              value={value}
-              onChange={(v) => settings.setRangeField(difficulty, field, v)}
-              disabled={settings.isSaving}
-              min={0}
-            />
-          );
-        })}
-      </Stack>
+      <FieldRow>
+        {REQUIRED_RANGE_FIELDS.map((field) => (
+          <NumberField
+            key={field}
+            label={FIELD_LABELS[field]}
+            value={range[field]}
+            onChange={(v) => settings.setRangeField(difficulty, field, v)}
+            disabled={settings.isSaving}
+            min={0}
+          />
+        ))}
+        {OPTIONAL_RANGE_FIELDS.map((field) => (
+          <OptionalNumberField
+            key={field}
+            label={FIELD_LABELS[field]}
+            value={range[field]}
+            onChange={(v) => settings.setOptionalRangeField(difficulty, field, v)}
+            disabled={settings.isSaving}
+            min={1}
+          />
+        ))}
+      </FieldRow>
     </Stack>
   );
 });

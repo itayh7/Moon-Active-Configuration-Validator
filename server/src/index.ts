@@ -13,7 +13,8 @@ const fastify = Fastify({ logger: true });
 
 await fastify.register(cors, {
   origin: true,
-  credentials: true
+  credentials: true,
+  methods: ['GET', 'HEAD', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS']
 });
 
 fastify.setErrorHandler((error: FastifyError, _request, reply) => {
