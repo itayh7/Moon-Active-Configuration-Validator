@@ -82,10 +82,9 @@ I've copied your plan to 'specs\3_config_llm_call_plan3.md'. Edit this file acco
  * mention that in the task we have the instruction of "higher levels are harder" - but what's "higher"? relatively to what? so if the user supplies the number of the levels for this game, it will be able to consider this rule.
 -V read again and refine the system prompt, conduct a debug session
 -V test all of the functionalities in UI
-- docker compose
- * it should run only the server?
-- upload to github
-- test on clean env
-- ensure notebook contains all running results
-- say in the submission that the README.md contains my insights also.
- - send to bar, add shachar as cc
+-V docker compose
+-V upload to github
+-V test on clean env
+-V ensure notebook contains all running results
+-V say in the submission that the README.md contains my insights also.
+ -V send to bar, add shachar as cc
