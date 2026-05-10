@@ -86,6 +86,22 @@ The container exposes the API on `localhost:3000` (`/validate-config`, `/models`
 
 ---
 
+## How to run
+
+After `npm run dev` is up, pick one of:
+
+1. **From the UI (recommended)** — open [http://localhost:5173](http://localhost:5173) in a browser and submit a config from the form.
+2. **From the notebook** — open [`notebooks/validate_config_examples.ipynb`](./notebooks/validate_config_examples.ipynb) and call `call_validate({...})` from any cell.
+3. **Via `curl`** — hit the [`/validate-config`](./server/src/routes/validate-config.ts) endpoint directly:
+
+   ```bash
+   curl -X POST "http://localhost:3000/validate-config?model=gpt-5" \
+     -H "Content-Type: application/json" \
+     -d '{"level": 12, "time_limit": 60, "reward": 5000, "difficulty": "easy"}'
+   ```
+
+---
+
 ## Examples
 
 End-to-end input/output examples (the three assignment cases plus five additional ones covering the rules in `server/src/prompts/system.md`) live in [`notebooks/validate_config_examples.ipynb`](./notebooks/validate_config_examples.ipynb). Open the notebook to see the full request/response JSON for each case.
