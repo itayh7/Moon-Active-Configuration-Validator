@@ -33,19 +33,43 @@ This README contains both my **insights** from this project and the **setup inst
 
 ## Setup
 
-### 1. Prerequisites
+You have two ways to run the project. Pick **one**:
+
+- **Option A — Docker** (single container, server + client bundled). Skip steps 1–4 below.
+- **Option B — Local dev** (Node + workspaces, hot reload). Follow steps 1–4 below.
+
+### Option A — Docker
+
+The repo ships a `Dockerfile` that builds and runs both the server and the client in a single container.
+
+Build the image (does fresh installs inside the build stages — proves nothing is cached locally):
+```bash
+docker build -t config-validator .
+```
+Run it (substitute your real key):
+```bash
+docker run --rm -p 3000:3000 -e OPENAI_API_KEY=sk-... config-validator
+```
+
+Once the container is up, open the UI at http://localhost:3000.
+
+---
+
+### Option B — Local dev
+
+#### 1. Prerequisites
 
 - Node.js 20+ (`node --version`)
 - npm
 - An OpenAI API key
 
-### 2. Install (root + workspaces in one go)
+#### 2. Install (root + workspaces in one go)
 
 ```bash
 npm install
 ```
 
-### 3. Configure the LLM API key
+#### 3. Configure the LLM API key
 
 ```bash
 cp server/.env.example server/.env
@@ -59,7 +83,7 @@ OPENAI_API_KEY=sk-...
 
 `server/.env` is git-ignored. Without a key, `POST /validate-config` returns **502**.
 
-### 4. Run
+#### 4. Run
 
 ```bash
 npm run dev          # server (:3000) + client (:5173)
@@ -72,17 +96,6 @@ npm run dev:client   # client only
 | Client UI           | http://localhost:5173                       |
 | Health              | http://localhost:3000/health                |
 | Validate a config   | http://localhost:3000/validate-config       |
-
-### 5. Docker (optional)
-
-The repo ships a `Dockerfile` that builds and runs the **server** alone (the client still runs locally with `npm run dev:client` if you want the UI):
-
-```bash
-docker build -t config-validator .
-docker run --rm -p 3000:3000 -e OPENAI_API_KEY=sk-... config-validator
-```
-
-The container exposes the API on `localhost:3000` (`/validate-config`, `/models`, `/reference-ranges`, `/health`).
 
 ---
 
