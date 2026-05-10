@@ -81,9 +81,9 @@ I've copied your plan to 'specs\3_config_llm_call_plan3.md'. Edit this file acco
  * architectural decisions: get help from Claude Code from our discussions for the best 5 in a concise format. for example set the role in system prompt to a game economy expect so this validator will be good for the business. Also explain why I decided to split the issues categories.
  * mention that in the task we have the instruction of "higher levels are harder" - but what's "higher"? relatively to what? so if the user supplies the number of the levels for this game, it will be able to consider this rule.
 -V read again and refine the system prompt, conduct a debug session
+-V test all of the functionalities in UI
 - docker compose
  * it should run only the server?
-- test all of the functionalities in UI
 - upload to github
 - test on clean env
 - ensure notebook contains all running results

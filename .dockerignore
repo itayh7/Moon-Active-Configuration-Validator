@@ -2,7 +2,6 @@
 **/dist
 **/.env
 **/.env.*
-client
 notebooks
 specs
 *.md

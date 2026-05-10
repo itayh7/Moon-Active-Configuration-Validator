@@ -5,6 +5,7 @@ import { registerHealthRoute } from './routes/health.js';
 import { registerValidateConfigRoute } from './routes/validate-config.js';
 import { registerModelsRoute } from './routes/models.js';
 import { registerReferenceRangesRoute } from './routes/reference-ranges.js';
+import { registerStaticClientRoute } from './routes/static-client.js';
 
 const PORT = Number(process.env.PORT ?? 3000);
 const HOST = process.env.HOST ?? '0.0.0.0';
@@ -30,6 +31,7 @@ await registerHealthRoute(fastify);
 await registerValidateConfigRoute(fastify);
 await registerModelsRoute(fastify);
 await registerReferenceRangesRoute(fastify);
+await registerStaticClientRoute(fastify);
 
 try {
   await fastify.listen({ port: PORT, host: HOST });
