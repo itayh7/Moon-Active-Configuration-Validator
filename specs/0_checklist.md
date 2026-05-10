@@ -1,10 +1,10 @@
+## Brainstorm
 - user prompt
  * dynamic "Reference Balancing Ranges" - the user will set them in UI
  * user input: "Configuration Fields" - the required input of this assignment
 - system prompt:
  * define criterias for the grade: what's good? what's bad? the confidence grade is based on what?
- * generate a grade by pre-defined conditions (if reward is x times higher than reference, ...) and then sum the conditions' grades? how much freedom 
- should we give here?
+ * generate a grade by pre-defined conditions (if reward is x times higher than reference, ...) and then sum the conditions' grades? how much freedom should we give here?
  * how should we treat harder levels differently than easier levels? harder level should expect low grade?
  * mindset - should we find how much the configuration is reasonable? suggest
  * maybe raise product questions: how much this will frustrate the player? when it's too easy so the user can gain too much money fastly? what will provoke the user to pay and buy game's money?
@@ -71,3 +71,18 @@ I've copied your plan to 'specs\3_config_llm_call_plan3.md'. Edit this file acco
 1. instruct in the plan to write in README.md why I chose Zod - because this is the closest library to pydantic (which I familiar with in python)
 2. ok that's good. about the "Lost" - this is also good because if we don't have any issue, then the input is fine. But instruct this in the system prompt, that if the input is fine, then no findings should be found.
 3. yes great, keep this instruction to write this in README.md
+
+## Assignments left (9.5 evening)
+-X show my conversations with Claude Code? if yes, mention this in README.md. ANS: no, it may contain sensitive data, for example from reading the open ai key. and they will not read it anyway
+- ensure in the README.md:
+ * describe my process, specs folder
+ * describe project's files, mostly the server files (less focus on the client files)
+ * principles: static system prompt and dynamic user prompt, xml format for user prompt ("It's the standard Anthropic-recommended split (markdown for instructions, XML tags for structured data)" - bring this article)
+ * architectural decisions: get help from Claude Code from our discussions for the best 5 in a concise format. for example set the role in system prompt to a game economy expect so this validator will be good for the business. Also explain why I decided to split the issues categories.
+ * mention that in the task we have the instruction of "higher levels are harder" - but what's "higher"? relatively to what? so if the user supplies the number of the levels for this game, it will be able to consider this rule.
+- refine the system prompt, conduct a debug session
+- docker compose
+ * it should run only the server?
+- say in the submission that the README.md contains my insights also.
+- test all of the functionalities in UI
+- test on clean env

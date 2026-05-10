@@ -1,5 +1,6 @@
 # Finishes
 Ok we are about to finish this assignment, we need to complete steps which are not done yet or not fully aligned with the requirements in 'specs\assignment.md'.
+I've modified project's files from the last time we have talked in this session so be aware.
 
 ## Remove AJV Lib
 We preferred Zod over AJV for schema validation, so this library is no longer in use. Remove it from this project's libraries.
@@ -25,3 +26,5 @@ error (or document this asymmetry).
 ## Remove LLM Call from Health Endpoint
 Remove greeting LLM call from endpoint in 'server\src\routes\health.ts'.
 
+## Finally
+Finally you will re-asses the issues in this project and what are the gaps between the current code-base (after your changes) and the requirements in 'specs\assignment.md'.

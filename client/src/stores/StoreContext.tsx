@@ -1,6 +1,5 @@
 import { createContext, useContext, useMemo, type ReactNode } from 'react';
 import { RootStore } from './RootStore';
-import type { HealthStore } from './HealthStore';
 import type { ModelsStore } from './ModelsStore';
 import type { SettingsStore } from './SettingsStore';
 import type { ValidatorStore } from './ValidatorStore';
@@ -22,10 +21,6 @@ export function useRootStore(): RootStore {
     throw new Error('useRootStore must be used inside <StoreProvider>');
   }
   return store;
-}
-
-export function useHealthStore(): HealthStore {
-  return useRootStore().healthStore;
 }
 
 export function useModelsStore(): ModelsStore {

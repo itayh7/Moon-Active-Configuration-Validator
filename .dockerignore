@@ -1,0 +1,12 @@
+**/node_modules
+**/dist
+**/.env
+**/.env.*
+client
+notebooks
+specs
+*.md
+.git
+.gitignore
+.idea
+.vscode

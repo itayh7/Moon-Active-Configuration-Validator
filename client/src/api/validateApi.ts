@@ -61,15 +61,18 @@ export async function validateConfig(
   payload: ConfigPayload,
   model: string
 ): Promise<ValidateConfigResponse> {
+  console.log('POST /validate-config — request', { model, payload });
   try {
     const { data } = await httpClient.post<ValidateConfigResponse>(
       VALIDATE_CONFIG_ENDPOINT,
       payload,
       { params: { model } }
     );
+    console.log('POST /validate-config — response', data);
     return data;
   } catch (err) {
     if (axios.isAxiosError(err) && err.response?.data) {
+      console.log('POST /validate-config — response (error)', err.response.data);
       return err.response.data as ValidateConfigResponse;
     }
     throw err;

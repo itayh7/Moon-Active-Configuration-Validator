@@ -1,7 +1,6 @@
 export const API_BASE_URL =
   (import.meta.env.VITE_API_URL as string | undefined) ?? 'http://localhost:3000';
 
-export const HEALTH_ENDPOINT = '/health';
 export const MODELS_ENDPOINT = '/models';
 export const VALIDATE_CONFIG_ENDPOINT = '/validate-config';
 export const REFERENCE_RANGES_ENDPOINT = '/reference-ranges';

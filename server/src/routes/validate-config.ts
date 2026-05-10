@@ -76,7 +76,21 @@ export async function registerValidateConfigRoute(app: FastifyInstance): Promise
       }
 
       const modelParam = (request.query as Record<string, unknown> | undefined)?.model;
-      const model = requireModel(modelParam);
+      let model: AllowedModel;
+      try {
+        model = requireModel(modelParam);
+      } catch (err) {
+        if (err instanceof InvalidModelError) {
+          reply.status(400);
+          return {
+            schema_validation: {
+              valid: false,
+              errors: [{ path: 'model', message: err.message }]
+            }
+          };
+        }
+        throw err;
+      }
 
       let ranges;
       try {
